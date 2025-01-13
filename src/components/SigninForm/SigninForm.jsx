@@ -32,37 +32,38 @@ const SigninForm = (props) => {
 
   return (
     <main>
-      <h1>Log In</h1>
-      <p>{message}</p>
-      <form autoComplete="off" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={formData.username}
-            name="username"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={formData.password}
-            name="password"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button type="submit">Log In</button>
-          <Link to="/">
-            <button type="button">Cancel</button>
-          </Link>
-        </div>
-      </form>
-    </main>
+  <form onSubmit={handleSubmit}>
+    <h1>Log In</h1>
+
+    <label htmlFor="username">Username:</label>
+    <input
+      type="text"
+      id="username"
+      name="username"
+      value={formData.username}
+      onChange={handleChange}
+      required
+    />
+
+    <label htmlFor="password">Password:</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      value={formData.password}
+      onChange={handleChange}
+      required
+    />
+
+    <div className="button-group">
+      <button type="submit">Log In</button>
+      <button type="button" className="cancel" onClick={() => navigate("/")}>
+        Cancel
+      </button>
+    </div>
+  </form>
+</main>
+
   );
 };
 

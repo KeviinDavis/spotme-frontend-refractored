@@ -38,49 +38,38 @@ const SignupForm = (props) => {
 
   return (
     <main>
+    <form onSubmit={handleSubmit}>
       <h1>Sign Up</h1>
-      <p>{message}</p>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            name="username"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            name="password"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="passwordConf">Confirm Password:</label>
-          <input
-            type="password"
-            id="passwordConf"
-            value={passwordConf}
-            name="passwordConf"
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <button type="submit" disabled={isFormInvalid()}>
-            Sign Up
-          </button>
-          <Link to="/">
-            <button type="button">Cancel</button>
-          </Link>
-        </div>
-      </form>
-    </main>
+  
+      <label htmlFor="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        value={formData.username}
+        onChange={handleChange}
+        required
+      />
+  
+      <label htmlFor="password">Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+      />
+  
+      <div className="button-group">
+        <button type="submit">Sign Up</button>
+        <button type="button" className="cancel" onClick={() => navigate("/")}>
+          Cancel
+        </button>
+      </div>
+    </form>
+  </main>
+  
   );
 };
 

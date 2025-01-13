@@ -1,42 +1,310 @@
-#root {
-  max-width: 1280px;
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+/* General Container */
+main {
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* NavBar Styling (Banner) */
+nav {
+  display: flex;
+  justify-content: space-between; /* Push content to opposite sides */
+  align-items: center; /* Vertically center content */
+  background-color: #f0f0f0;
+  padding: 0.5rem 2rem;
+  border-bottom: 1px solid #ccc;
+  height: 60px; /* Fixed height for consistency */
+}
+
+nav h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+nav p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 0.5rem 2rem;
+  border-bottom: 1px solid #ccc;
+  height: 60px; /* Fixed height for consistency */
+}
+
+nav h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Space between Welcome text and Logout button */
+}
+
+nav p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.logout-button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+/* Landing Page */
+main h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+main p {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  color: #555;
+}
+
+main div {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+main div a {
+  text-decoration: none;
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+main div a:hover {
+  background-color: #0056b3;
+}
+
+/* Form Container Styling */
+form {
+  max-width: 400px; /* Restrict form width */
+  margin: 3rem auto; /* Center form on the page with top margin */
   padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Heading */
+form h1 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Input Fields */
+form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #555;
+}
+
+form input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Buttons */
+form button {
+  display: inline-block;
+  width: 48%; /* Buttons take equal width */
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+form button:hover {
+  background-color: #0056b3;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+form button.cancel {
+  background-color: #6c757d; /* Grey for Cancel */
+}
+
+form button.cancel:hover {
+  background-color: #5a6268;
+}
+
+/* Button Container */
+form .button-group {
+  display: flex;
+  justify-content: space-between; /* Align buttons side by side */
+}
+
+/* Center Form on Page */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Stretch inputs and buttons to full width */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  form button {
+    width: 100%; /* Stack buttons on smaller screens */
+    margin-bottom: 1rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  form .button-group {
+    flex-direction: column;
+    gap: 1rem; /* Add spacing between stacked buttons */
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+
+/* Dashboard Container */
+.dashboard-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
 }
 
-.card {
-  padding: 2em;
+/* Create Workout Section */
+.create-workout {
+  flex: 1;
+  margin-right: 2rem;
+  text-align: center; /* Center the content in the form */
 }
 
-.read-the-docs {
-  color: #888;
+.create-workout form h2 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem; /* Match the "Your Workouts" font size */
+}
+
+.create-workout form input,
+.create-workout form button {
+  margin: 0.5rem 0; /* Add consistent vertical spacing */
+}
+
+
+.create-workout form h2 {
+  margin-bottom: 1rem;
+}
+
+.create-workout form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-workout form button {
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.create-workout form button:hover {
+  background-color: #0056b3;
+}
+
+/* Workouts List Section */
+.workouts-list {
+  flex: 2;
+  text-align: center; /* Center-aligns the "Your Workouts" heading */
+}
+
+.workouts-list h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.75rem; /* Optional: Adjust font size */
+}
+
+
+.workouts-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.workouts-list li {
+  background: white;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.workouts-list li h3 {
+  margin-bottom: 0.5rem;
+}
+
+.workouts-list li button {
+  margin-right: 0.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.workouts-list li button:hover {
+  background-color: #0056b3;
+}
+
+.workouts-list li button:nth-child(2) {
+  background-color: #dc3545;
+}
+
+.workouts-list li button:nth-child(2):hover {
+  background-color: #a71d2a;
 }
