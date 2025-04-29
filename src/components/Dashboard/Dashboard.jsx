@@ -9,16 +9,12 @@ const Dashboard = () => {
   // Fetch workouts on mount
   useEffect(() => {
     const fetchWorkouts = async () => {
-      try {
-        const fetchedWorkouts = await workoutService.getWorkouts();
-        setWorkouts(fetchedWorkouts);
-      } catch (err) {
-        console.error("Failed to fetch workouts:", err);
-      }
+      const fetchedWorkouts = await workoutService.getWorkouts();
+      setWorkouts(fetchedWorkouts);
     };
     fetchWorkouts();
   }, []);
-
+  
   // Handle input changes for new workout
   const handleChange = (e) => {
     setNewWorkout({ ...newWorkout, [e.target.name]: e.target.value });

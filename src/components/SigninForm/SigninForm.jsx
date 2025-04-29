@@ -4,29 +4,29 @@ import * as authService from "../../services/authService";
 
 const SigninForm = (props) => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState(""); // To show any error messages
+  const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
-
+ 
   const updateMessage = (msg) => {
-    setMessage(msg); // Set error or success messages
+    setMessage(msg); 
   };
 
   const handleChange = (e) => {
-    updateMessage(""); // Clear message on change
-    setFormData({ ...formData, [e.target.name]: e.target.value }); // Update form data
+    updateMessage("");
+    setFormData({ ...formData, [e.target.name]: e.target.value }); 
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const user = await authService.signin(formData); // Call signin function
-      props.setUser(user); // Set the user in the parent component's state
-      navigate("/"); // Redirect to the dashboard after successful login
+      const user = await authService.signin(formData);
+      props.setUser(user); 
+      navigate("/"); 
     } catch (err) {
-      updateMessage(err.message || "Failed to log in."); // Handle errors
+      updateMessage(err.message || "Failed to log in."); 
     }
   };
 

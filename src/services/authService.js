@@ -9,10 +9,10 @@ const getUser = () => {
   const token = localStorage.getItem("token");
   if (!token) return null;
   try {
-    const payload = atob(token.split(".")[1]); // Decode token payload
-    return JSON.parse(payload); // Parse and return the user object
+    const payload = atob(token.split(".")[1]); 
+    return JSON.parse(payload);
   } catch (err) {
-    return null; // Return null if token is invalid
+    return null; 
   }
 };
 
@@ -28,8 +28,8 @@ const signup = async (formData) => {
     if (json.error) {
       throw new Error(json.error);
     }
-    localStorage.setItem("token", json.token); // Save token in local storage
-    return getUser(); // Return the current user
+    localStorage.setItem("token", json.token);
+    return getUser(); 
   } catch (err) {
     throw err;
   }
@@ -54,8 +54,8 @@ const signin = async (formData) => {
       throw new Error(json.error);
     }
 
-    localStorage.setItem("token", json.token); // Save token in local storage
-    return getUser(); // Return the current user
+    localStorage.setItem("token", json.token);
+    return getUser();
   } catch (err) {
     console.error("Error during sign-in:", err);
     throw err;
@@ -64,7 +64,7 @@ const signin = async (formData) => {
 
 // Sign out the user
 const signout = () => {
-  localStorage.removeItem("token"); // Remove token from local storage
+  localStorage.removeItem("token");
 };
 
 export { getUser, signup, signin, signout };
