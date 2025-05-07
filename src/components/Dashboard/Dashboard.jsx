@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import * as workoutService from "../../services/workoutService";
+import * as programService from "../../services/programService";  // ← here
+
 
 const Dashboard = () => {
   const [workouts, setWorkouts] = useState([]);
@@ -14,6 +16,19 @@ const Dashboard = () => {
     };
     fetchWorkouts();
   }, []);
+
+  useEffect(() => {
+    // Fetch workouts...
+    const fetchWorkouts = async () => { /* … */ };
+    fetchWorkouts();
+  
+    // Now also fetch programs
+    programService.getPrograms()
+      .then(data => console.log("Programs:", data))
+      .catch(err => console.error("Programs fetch failed:", err));
+  }, []);
+  
+  
   
   // Handle input changes for new workout
   const handleChange = (e) => {

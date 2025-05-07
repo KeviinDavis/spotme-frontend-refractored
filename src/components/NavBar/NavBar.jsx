@@ -1,4 +1,5 @@
-import { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import { useContext }   from "react";
 import { AuthedUserContext } from "../../App";
 
 const NavBar = ({ handleSignout }) => {
@@ -6,11 +7,14 @@ const NavBar = ({ handleSignout }) => {
 
   return (
     <nav>
-      {/* Left corner: SpotMe title */}
       <h1>SpotMe</h1>
-
-      {/* Right corner: Welcome message or Logout button */}
       <div className="nav-right">
+        {user && (
+          <NavLink to="/programs" style={{ margin: "0 1rem" }}>
+            Programs
+          </NavLink>
+        )}
+
         {user ? (
           <>
             <p>Welcome, {user.username}</p>
@@ -25,5 +29,6 @@ const NavBar = ({ handleSignout }) => {
     </nav>
   );
 };
+
 
 export default NavBar;
