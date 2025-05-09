@@ -1,7 +1,16 @@
 import React from "react";
 import ExerciseRow from "./ExerciseRow";
 
-const WorkoutDayCard = ({ dayName, onDayNameChange, onAddExercise }) => (
+const WorkoutDayCard = ({
+  dayName,
+  onDayNameChange,
+  onAddExercise,
+  exercises,
+  onExerciseNameChange,
+  onSetsChange,
+  onRepsChange,
+  onWeightChange,
+}) => (
   <div
     className="workout-day-card"
     style={{
@@ -21,15 +30,21 @@ const WorkoutDayCard = ({ dayName, onDayNameChange, onAddExercise }) => (
     <button onClick={onAddExercise} style={{ marginBottom: "1rem" }}>
       + Add Exercise
     </button>
-    {/* Render one ExerciseRow as a placeholder */}
-    <ExerciseRow
-      setsOptions={[1, 2, 3, 4, 5]}
-      repsOptions={[1, 5, 8, 10, 12]}
-      onSetsChange={() => {}}
-      onRepsChange={() => {}}
-      onExerciseNameChange={() => {}}
-      onWeightChange={() => {}}
-    />
+
+    {/* Render one ExerciseRow per exercise */}
+    {exercises.map((ex, exIdx) => (
+      <ExerciseRow
+        key={exIdx}
+        name={ex.name}
+        sets={ex.sets}
+        reps={ex.reps}
+        weight={ex.weight}
+        onExerciseNameChange={onExerciseNameChange(exIdx)}
+        onSetsChange={onSetsChange(exIdx)}
+        onRepsChange={onRepsChange(exIdx)}
+        onWeightChange={onWeightChange(exIdx)}
+      />
+    ))}
   </div>
 );
 
