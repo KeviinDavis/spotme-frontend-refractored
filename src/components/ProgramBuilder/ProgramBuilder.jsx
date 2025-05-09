@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import ProgramNameInput    from "./ProgramNameInput";
 import AddWorkoutDayButton from "./AddWorkoutDayButton";
 import WorkoutDayCard      from "./WorkoutDayCard";
-import { getPrograms, createProgram } from "../../services/programService";
+import { getPrograms, createProgram, updateProgram, deleteProgram } from "../../services/programService";
 
 const ProgramBuilder = () => {
   const [programName, setProgramName] = useState("");
   const [programs, setPrograms]       = useState([]);
   const [programDays, setProgramDays] = useState([]);
+  const [editingProgramId, setEditingProgramId] = useState(null);
 
   useEffect(() => {
     getPrograms()
@@ -44,36 +45,86 @@ const ProgramBuilder = () => {
     setProgramDays(updated);
   };
 
+  const handleEditClick = (prog) => {
+    setProgramName(prog.name);
+    setProgramDays(prog.days);
+    setEditingProgramId(prog._id);
+  };
+
   const handleSaveProgram = () => {
     const payload = { name: programName, days: programDays };
-    createProgram(payload)
-      .then(newProg => {
-        setPrograms([newProg, ...programs]);
+    if (editingProgramId) {
+      // Update existing
+      updateProgram(editingProgramId, payload)
+        .then(updated => {
+          // Replace it in the list
+          setPrograms(programs.map(p => p._id === editingProgramId ? updated : p));
+          // Exit edit mode & reset form
+          setEditingProgramId(null);
+          setProgramName("");
+          setProgramDays([]);
+        })
+        .catch(err => console.error("Failed to update program:", err));
+    } else {
+      // Create new
+      createProgram(payload)
+        .then(newProg => {
+          setPrograms([newProg, ...programs]);
+          setProgramName("");
+          setProgramDays([]);
+        })
+        .catch(err => console.error("Failed to save program:", err));
+    }
+  };
+
+// Delete a program by ID
+const handleDeleteProgram = (id) => {
+  deleteProgram(id)
+    .then(() => {
+      // Remove from local list
+      setPrograms(programs.filter(p => p._id !== id));
+      // If we were editing it, reset the form
+      if (editingProgramId === id) {
+        setEditingProgramId(null);
         setProgramName("");
         setProgramDays([]);
-      })
-      .catch(err => console.error("Failed to save program:", err));
-  };
+      }
+    })
+    .catch(err => console.error("Failed to delete program:", err));
+};
 
   return (
     <div style={{ padding: "2rem" }}>
       <h2>Program Builder</h2>
 
       {/* Saved programs list */}
-      <div style={{ margin: "1rem 0" }}>
-        <h3>Your Saved Programs</h3>
-        {programs.length === 0 ? (
-          <p>No programs yet.</p>
-        ) : (
-          <ul>
-            {programs.map((prog) => (
-              <li key={prog._id} style={{ marginBottom: "0.5rem" }}>
-                {prog.name}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <ul>
+      {programs.map((prog) => (
+        <li
+          key={prog._id}
+          onClick={() => handleEditClick(prog)}
+          style={{
+            marginBottom: "0.5rem",
+            cursor: "pointer",
+            fontWeight: editingProgramId === prog._id ? "bold" : "normal",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center"
+          }}
+        >
+          <span>{prog.name}</span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteProgram(prog._id);
+            }}
+            style={{ marginLeft: "1rem" }}
+          >
+            Delete
+          </button>
+        </li>
+      ))}
+    </ul>
 
       {/* Program Name input */}
       <ProgramNameInput value={programName} onChange={handleNameChange} />
@@ -100,8 +151,8 @@ const ProgramBuilder = () => {
       <button
         onClick={handleSaveProgram}
         style={{ marginTop: "1.5rem", padding: "0.75rem 1.5rem", fontSize: "1rem" }}
-      >
-        Save Program
+        >
+        {editingProgramId ? "Update Program" : "Save Program"}
       </button>
     </div>
   );
