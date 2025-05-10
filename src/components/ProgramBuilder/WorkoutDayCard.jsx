@@ -6,6 +6,9 @@ const WorkoutDayCard = ({
   onDayNameChange,
   onAddExercise,
   exercises,
+  nameError,
+  exerciseErrors,
+  exerciseErrors,
   onExerciseNameChange,
   onSetsChange,
   onRepsChange,
@@ -20,13 +23,27 @@ const WorkoutDayCard = ({
       marginBottom: "1rem",
     }}
   >
+    {/* Day Name input with error styling */}
     <input
       type="text"
       placeholder="Day Name (e.g. Day 1 – Chest & Triceps)"
       value={dayName}
       onChange={onDayNameChange}
-      style={{ width: "100%", marginBottom: "0.5rem", padding: "0.5rem" }}
+      style={{
+        width: "100%",
+        padding: "0.5rem",
+        marginBottom: nameError ? "0.25rem" : "0.5rem",
+        border: nameError ? "1px solid red" : "1px solid #ccc",
+        borderRadius: "4px",
+      }}
     />
+    {nameError && (
+      <p style={{ color: "red", margin: "0 0 0.5rem" }}>
+        {nameError}
+      </p>
+    )}
+
+    {/* Add Exercise button */}
     <button onClick={onAddExercise} style={{ marginBottom: "1rem" }}>
       + Add Exercise
     </button>
@@ -43,6 +60,10 @@ const WorkoutDayCard = ({
         onSetsChange={onSetsChange(exIdx)}
         onRepsChange={onRepsChange(exIdx)}
         onWeightChange={onWeightChange(exIdx)}
+        errorName={exerciseErrors[exIdx]?.name}
+        errorSets={exerciseErrors[exIdx]?.sets}
+        errorReps={exerciseErrors[exIdx]?.reps}
+        errorWeight={exerciseErrors[exIdx]?.weight}
       />
     ))}
   </div>
