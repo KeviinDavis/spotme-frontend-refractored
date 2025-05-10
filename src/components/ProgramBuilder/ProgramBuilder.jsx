@@ -3,12 +3,14 @@ import ProgramNameInput    from "./ProgramNameInput";
 import AddWorkoutDayButton from "./AddWorkoutDayButton";
 import WorkoutDayCard      from "./WorkoutDayCard";
 import { getPrograms, createProgram, updateProgram, deleteProgram } from "../../services/programService";
+import { Link } from "react-router-dom";
 
 const ProgramBuilder = () => {
   const [programName, setProgramName] = useState("");
   const [programs, setPrograms]       = useState([]);
   const [programDays, setProgramDays] = useState([]);
   const [editingProgramId, setEditingProgramId] = useState(null);
+  const [nameError, setNameError] = useState("");
 
   useEffect(() => {
     getPrograms()
@@ -18,6 +20,7 @@ const ProgramBuilder = () => {
 
   const handleNameChange = (e) => {
     setProgramName(e.target.value);
+    if (nameError) setNameError("");
   };
 
   const handleAddWorkoutDay = () => {
@@ -52,6 +55,10 @@ const ProgramBuilder = () => {
   };
 
   const handleSaveProgram = () => {
+    if (!programName.trim()) {
+      setNameError("Program name is required");
+      return;
+    }
     const payload = { name: programName, days: programDays };
     if (editingProgramId) {
       // Update existing
@@ -93,12 +100,27 @@ const handleDeleteProgram = (id) => {
     .catch(err => console.error("Failed to delete program:", err));
 };
 
-  return (
-    <div style={{ padding: "2rem" }}>
-      <h2>Program Builder</h2>
+return (
+  <div style={{ padding: "2rem" }}>
+    {/* ← Back to Dashboard link */}
+    <div style={{ marginBottom: "1rem" }}>
+      <Link
+        to="/"
+        style={{
+          textDecoration: "none",
+          color: "#007bff",
+          fontSize: "0.9rem",
+          display: "inline-block",
+        }}
+      >
+        ← Back to Dashboard
+      </Link>
+    </div>
 
-      {/* Saved programs list */}
-      <ul>
+    <h2>Program Builder</h2>
+
+    {/* Saved programs list */}
+    <ul>
       {programs.map((prog) => (
         <li
           key={prog._id}
@@ -109,7 +131,7 @@ const handleDeleteProgram = (id) => {
             fontWeight: editingProgramId === prog._id ? "bold" : "normal",
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <span>{prog.name}</span>
@@ -126,36 +148,63 @@ const handleDeleteProgram = (id) => {
       ))}
     </ul>
 
-      {/* Program Name input */}
+    {/* Program Name input with validation */}
+    <div
+      style={{
+        marginBottom: "0.5rem",
+        border: nameError ? "1px solid red" : "none",
+        borderRadius: "4px",
+        padding: "0.25rem",
+      }}
+    >
       <ProgramNameInput value={programName} onChange={handleNameChange} />
-
-      {/* Add Workout Day button */}
-      <AddWorkoutDayButton onClick={handleAddWorkoutDay} />
-
-      {/* Workout Day Cards */}
-      {programDays.map((day, dayIdx) => (
-        <WorkoutDayCard
-          key={dayIdx}
-          dayName={day.name}
-          onDayNameChange={handleDayNameChange(dayIdx)}
-          onAddExercise={handleAddExercise(dayIdx)}
-          exercises={day.exercises}
-          onExerciseNameChange={(exIdx) => (e) => handleExerciseChange(dayIdx, exIdx, e)}
-          onSetsChange={(exIdx) => (e) => handleExerciseChange(dayIdx, exIdx, e)}
-          onRepsChange={(exIdx) => (e) => handleExerciseChange(dayIdx, exIdx, e)}
-          onWeightChange={(exIdx) => (e) => handleExerciseChange(dayIdx, exIdx, e)}
-        />
-      ))}
-
-      {/* Save Program */}
-      <button
-        onClick={handleSaveProgram}
-        style={{ marginTop: "1.5rem", padding: "0.75rem 1.5rem", fontSize: "1rem" }}
-        >
-        {editingProgramId ? "Update Program" : "Save Program"}
-      </button>
     </div>
-  );
+    {nameError && (
+      <p style={{ color: "red", margin: "0 0 1rem" }}>{nameError}</p>
+    )}
+
+    {/* Add Workout Day button */}
+    <AddWorkoutDayButton onClick={handleAddWorkoutDay} />
+
+    {/* Workout Day Cards */}
+    {programDays.map((day, dayIdx) => (
+      <WorkoutDayCard
+        key={dayIdx}
+        dayName={day.name}
+        onDayNameChange={handleDayNameChange(dayIdx)}
+        onAddExercise={handleAddExercise(dayIdx)}
+        exercises={day.exercises}
+        onExerciseNameChange={(exIdx) => (e) =>
+          handleExerciseChange(dayIdx, exIdx, e)
+        }
+        onSetsChange={(exIdx) => (e) =>
+          handleExerciseChange(dayIdx, exIdx, e)
+        }
+        onRepsChange={(exIdx) => (e) =>
+          handleExerciseChange(dayIdx, exIdx, e)
+        }
+        onWeightChange={(exIdx) => (e) =>
+          handleExerciseChange(dayIdx, exIdx, e)
+        }
+      />
+    ))}
+
+    {/* Save/Update Program button */}
+    <button
+      onClick={handleSaveProgram}
+      disabled={!programName.trim()}
+      style={{
+        marginTop: "1.5rem",
+        padding: "0.75rem 1.5rem",
+        fontSize: "1rem",
+        opacity: !programName.trim() ? 0.5 : 1,
+        cursor: !programName.trim() ? "not-allowed" : "pointer",
+      }}
+    >
+      {editingProgramId ? "Update Program" : "Save Program"}
+    </button>
+  </div>
+);
 };
 
 export default ProgramBuilder;
